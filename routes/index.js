@@ -2,10 +2,13 @@ var express = require('express');
 var router = express.Router();
 var User = require('../models/user');
 
+
 router.get('/register', function (req, res, next) {
 	return res.render('index.ejs');
 });
 
+var loggedInUser = null;
+var currentErr = "";
 
 router.post('/register', function(req, res, next) {
 	console.log(req.body);
@@ -46,7 +49,7 @@ router.post('/register', function(req, res, next) {
 						});
 
 					}).sort({_id: -1}).limit(1);
-					res.send({"Success":"You are regestered,You can login now."});
+					res.send({"Success":"You are registered,You can login now."});
 				}else{
 					res.send({"Success":"Email is already used."});
 				}
@@ -69,6 +72,7 @@ router.post('/login', function (req, res, next) {
 			
 			if(data.password==req.body.password){
 				//console.log("Done Login");
+				loggedInUser = data;  // silme işlemi deneme
 				req.session.userId = data.unique_id;
 				//console.log(req.session.userId);
 				res.send({"Success":"Success!"});
@@ -189,21 +193,35 @@ router.get('/teamregister', function (req, res, next) {
 	return res.render('teamregister.ejs');
 });
 
+router.get('/delete',function(req,res)		// href delete kısmını get ile alıyor
+{
+	User.deleteOne({email:loggedInUser?.email}).then(function()		// delete operation in database
+	{
+
+		console.log("User is deleted");
+		loggedInUser = null;
+		res.render("home.ejs");	// operasyon tamamlandı home page geri atıyor
+	}).catch(function(error)
+	{
+		console.log(error); // Failure case
+	})
+});
+
 
 router.post('/teamregister', function(req, res, next) {
 	console.log(req.body);
-	var personInfo = req.body;
+	var teamInfo = req.body;
 
 
-	if(!personInfo.email || !personInfo.username || !personInfo.password || !personInfo.passwordConf || !personInfo.teamname){
+	if(!teamInfo.email || !teamInfo.teamname || !teamInfo.password || !teamInfo.passwordConf ){
 		res.send();
 	} else {
-		if (personInfo.password == personInfo.passwordConf) {
+		if (teamInfo.password == teamInfo.passwordConf) {
 
-			User.findOne({email:personInfo.email},function(err,data){
+			Team.findOne({email:teamInfo.email},function(err,data){
 				if(!data){
 					var c;
-					User.findOne({},function(err,data){
+					Team.findOne({},function(err,data){
 
 						if (data) {
 							console.log("if");
@@ -212,16 +230,16 @@ router.post('/teamregister', function(req, res, next) {
 							c=1;
 						}
 
-						var newPerson = new User({
+						var newTeam = new Team({
 							unique_id:c,
-							email:personInfo.email,
-							username: personInfo.username,
-							password: personInfo.password,
-							passwordConf: personInfo.passwordConf,
-							teamname: personInfo.teamname
+							email:teamInfo.email,
+							teamname: teamInfo.teamname,
+							password: teamInfo.password,
+							passwordConf: teamInfo.passwordConf
+							
 						});
 
-						newPerson.save(function(err, Person){
+						newTeam.save(function(err, Person){
 							if(err)
 								console.log(err);
 							else

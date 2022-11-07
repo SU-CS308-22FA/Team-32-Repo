@@ -10,8 +10,11 @@ userSchema = new Schema( {
 	passwordConf: String,
 	teamname: String
 }),
-	
+
 	
 User = mongoose.model('User', userSchema);
+
+
+
 
 module.exports = User;

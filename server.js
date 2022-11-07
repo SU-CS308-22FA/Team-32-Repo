@@ -19,6 +19,7 @@ mongoose.connect('mongodb+srv://gumuslu:gum123@cluster0.wlagdch.mongodb.net/test
   }
 });
 
+
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
