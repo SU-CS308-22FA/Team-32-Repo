@@ -141,7 +141,7 @@ router.get('/change',function(req,res)
 
 router.post('/change',function(req,res) // Change 
 {
-	User.findOne({email:req.body.email},function(err,data) // if find email from database
+	User.findOne({email:loggedInUser?.email},function(err,data) // if find email from database
 	{
 		console.log(data);
 		if(!data) // if data can not find 
@@ -174,6 +174,8 @@ router.post('/change',function(req,res) // Change
 
 					res.send({"Success":"Changed"});
 			});
+
+			 loggedInUser = data; // lazım olur 
 		}
 		else
 		{
