@@ -18,12 +18,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/guruhariharaun/creating-registration-and-login-form-in-nodejs-and-mongodb"
+    "url": "https://github.com/Razbolt"
   },
-  "author": "GuruRoxz",
+  "author": "Razbolt",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/guruhariharaun/creating-registration-and-login-form-in-nodejs-and-mongodb"
+    "url": "https://github.com/Razbolt"
   },
-  "homepage": "https://github.com/guruhariharaun/creating-registration-and-login-form-in-nodejs-and-mongodb#read.me"
+  "homepage": "empty"
 }

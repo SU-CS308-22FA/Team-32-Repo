@@ -132,6 +132,59 @@ router.get('/forgetpass', function (req, res, next) {
 	res.render("forget.ejs");
 });
 
+router.get('/change',function(req,res)
+{
+
+	res.render('change.ejs');
+
+});
+
+router.post('/change',function(req,res) // Change 
+{
+	User.findOne({email:req.body.email},function(err,data) // if find email from database
+	{
+		console.log(data);
+		if(!data) // if data can not find 
+		
+		{
+			res.send({"Success":"This Email Is not registered!"});
+		}
+		
+		else
+		
+		{
+			// res.send({"Success":"Success!"});
+			if (req.body.password==req.body.passwordConf) // check given req.body password from inputs then change data accordingly
+			{
+			data.email = req.body.email;
+			data.username = req.body.username;
+			data.password=req.body.password;
+			data.passwordConf=req.body.passwordConf;
+			data.teamname = req.body.teamname;
+
+
+			data.save(function(err, Person) // save the data
+			{
+				if(err)
+					console.log(err);
+				else
+					console.log('Success');
+
+					//res.render("/data.ejs");
+
+					res.send({"Success":"Changed"});
+			});
+		}
+		else
+		{
+			res.send({"Success":"Passwords are not matching "});
+		}
+		}
+	});
+	
+
+});
+
 router.post('/forgetpass', function (req, res, next) {
 	//console.log('req.body');
 	//console.log(req.body);
@@ -257,6 +310,12 @@ router.post('/teamregister', function(req, res, next) {
 			res.send({"Success":"password is not matched"});
 		}
 	}
+});
+
+router.get('/data',function(req,res)
+{
+
+	return res.render('data.ejs');
 });
 
 module.exports = router;
