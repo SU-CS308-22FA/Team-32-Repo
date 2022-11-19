@@ -185,6 +185,14 @@ router.get('/', function (req, res, next) {
 	return res.render('home.ejs');
 });
 
+
+//ANASAYFA CALL'U
+router.get('/homepage', function (req, res, next) {
+	return res.render('Anasayfa.ejs');
+});
+//ANASAYFA SONU
+
+
 router.get('/teamregister', function (req, res, next) {
 	return res.render('teamregister.ejs');
 });
