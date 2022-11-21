@@ -8,6 +8,8 @@ var mongoose = require('mongoose');
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 
+
+
 mongoose.connect('mongodb+srv://gumuslu:gum123@cluster0.wlagdch.mongodb.net/test', {
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -18,6 +20,9 @@ mongoose.connect('mongodb+srv://gumuslu:gum123@cluster0.wlagdch.mongodb.net/test
     console.log('Error in DB connection : ' + err);
   }
 });
+
+mongoose.set('useFindAndModify', false);
+
 
 
 var db = mongoose.connection;
@@ -43,6 +48,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(__dirname + '/views'));
 
 var index = require('./routes/index');
+const { Item, User } = require('./models/user');
+const { fstat } = require('fs');
 app.use('/', index);
 
 // catch 404 and forward to error handler
