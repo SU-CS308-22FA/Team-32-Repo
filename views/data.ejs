@@ -65,9 +65,11 @@
 			<div id="mySidenav" class="sidenav">
 			<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 			<a href="/homepage">Home</a>
-			<a href="https://www.tff.org/">TFF Main Page</a>
+			<a href="/change">Update Account</a>
 			<a href="/forgetpass">Change Password</a>
-			<a href="/contact">Contact</a>
+			<a href="/delete">Delete Account</a>
+			<a href="/contact">Help!</a>
+			<a href="/logout">Logout</a>
 			</div>
 
 			<span class="menubtn" style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
@@ -96,10 +98,14 @@
 					<tr><td>Favourite Team </td><td><%= teamname %></td></tr>
 				</table>
 			</center>
+			
 		</div>
 		<div class="abc">
-			<a href="/logout">Logout</a>
+			
+	
 		</div>
+		<a class="btn btn-dark btn-lg" href="/create_item" role="button">Add product</a>
+		<a class="btn btn-dark btn-lg" href="/your_item" role="button">Check your items</a> 
 	</div>
 </body>
 </html>

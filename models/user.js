@@ -8,10 +8,31 @@ userSchema = new Schema( {
 	username: String,
 	password: String,
 	passwordConf: String,
-	teamname: String
+	teamname: String,
+
+
+	items: [{type: Schema.Types.ObjectId, ref: 'Item'}]
+
+});
+
+
+
+ItemSchema = new Schema( {
+	
+	
+	
+	createrId:{type:Schema.Types.ObjectId, ref: 'User'},
+	
+	productname: String,
+	description: String,
+	price:String,
+	totalStock: String
 }),
+
 	
-	
+Item = mongoose.model('Item', ItemSchema);
 User = mongoose.model('User', userSchema);
 
-module.exports = User;
+
+
+module.exports = {Item,User};

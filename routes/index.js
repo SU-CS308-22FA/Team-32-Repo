@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var User = require('../models/user');
+const {User,Item} = require('../models/user');
+
 
 router.get('/register', function (req, res, next) {
 	return res.render('index.ejs');
@@ -191,6 +192,152 @@ router.get('/homepage', function (req, res, next) {
 	return res.render('Anasayfa.ejs');
 });
 //ANASAYFA SONU
+
+
+router.get('/create_item', function(req,res,next) 
+{
+
+
+
+	return res.render('items.ejs');
+
+});
+
+router.post(
+	'/create_item',
+	async function (
+	  req,
+	  res,
+	  next // Try to create items in database
+	) {
+	  console.log(req.body);
+	  try {
+		var itemInfo = req.body;
+  
+		if (
+		  !itemInfo.itemname ||
+		  !itemInfo.itemdsc ||
+		  !itemInfo.itemstock ||
+		  !itemInfo.itemprice
+		) {
+		  return res.send("Incomplete parameters");
+		}
+  
+		const newItem = await Item.create({
+		  createrId: loggedInUser._id,
+		  productname: itemInfo.itemname,
+		  description: itemInfo.itemdsc,
+		  price: itemInfo.itemprice,
+		  totalStock: itemInfo.itemstock,
+		});
+  
+		const result = await User.findByIdAndUpdate(loggedInUser._id, {
+			$push: { items: newItem._id}, // sanırım burası sıkıntılı 
+		  },{ new: true } )
+			.populate('items')
+			.exec();
+	
+			console.log('Suceess ? : ', result);
+			
+		
+			return res.send("Done");
+	  }
+	   catch (e) {
+		console.log(e);
+	  }
+	}
+  );
+
+
+router.get('/change',function(req,res)
+{
+
+	res.render('change.ejs');
+
+});
+
+
+router.post('/change',function(req,res) // Change 
+{
+	User.findOne({email:loggedInUser?.email},function(err,data) // if find email from database
+	{
+		console.log(data);
+		if(!data) // if data can not find 
+		
+		{
+			res.send({"Success":"This Email Is not registered!"});
+		}
+		
+		else
+		
+		{
+			// res.send({"Success":"Success!"});
+			if (req.body.password==req.body.passwordConf) // check given req.body password from inputs then change data accordingly
+			{
+			data.email = req.body.email;
+			data.username = req.body.username;
+			data.password=req.body.password;
+			data.passwordConf=req.body.passwordConf;
+			data.teamname = req.body.teamname;
+
+
+			data.save(function(err, Person) // save the data
+			{
+				if(err)
+					console.log(err);
+				else
+					console.log('Success');
+
+					//res.render("/data.ejs");
+
+					res.send({"Success":"Changed"});
+			});
+
+			 loggedInUser = data; // lazım olur 
+		}
+		else
+		{
+			res.send({"Success":"Passwords are not matching "});
+		}
+		}
+	});
+	
+
+});
+
+
+router.get('/all_items',function(req,res,next)
+{
+
+	Item.find({},function(err,items)
+	{
+		res.render('all_items.ejs', 
+		{
+			itemList:items
+		})
+	})
+
+});
+
+
+
+router.get('/your_item', function(req,res,next)
+{
+	  all_item = User.find( )
+		.populate('items')
+		.exec();
+
+		res.render('your_items.ejs',	
+
+		{itemlist:all_item
+
+		})
+
+	
+
+});
+
+
 
 
 router.get('/teamregister', function (req, res, next) {

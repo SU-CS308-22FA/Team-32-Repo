@@ -8,6 +8,8 @@ var mongoose = require('mongoose');
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 
+
+
 mongoose.connect('mongodb+srv://gumuslu:gum123@cluster0.wlagdch.mongodb.net/test', {
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -19,6 +21,7 @@ mongoose.connect('mongodb+srv://gumuslu:gum123@cluster0.wlagdch.mongodb.net/test
   }
 });
 
+mongoose.set('useFindAndModify', false);
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
