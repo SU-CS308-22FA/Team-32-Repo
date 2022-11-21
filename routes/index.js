@@ -1,6 +1,9 @@
 var express = require('express');
 var router = express.Router();
-var User = require('../models/user');
+const {User,Item} = require('../models/user');
+
+
+
 
 
 router.get('/register', function (req, res, next) {
@@ -9,6 +12,8 @@ router.get('/register', function (req, res, next) {
 
 var loggedInUser = null;
 var currentErr = "";
+
+
 
 router.post('/register', function(req, res, next) {
 	console.log(req.body);
@@ -74,6 +79,7 @@ router.post('/login', function (req, res, next) {
 				//console.log("Done Login");
 				loggedInUser = data;  // silme işlemi deneme
 				req.session.userId = data.unique_id;
+				req.session._id = data._id;
 				//console.log(req.session.userId);
 				res.send({"Success":"Success!"});
 				
@@ -132,12 +138,69 @@ router.get('/forgetpass', function (req, res, next) {
 	res.render("forget.ejs");
 });
 
+
+router.get('/create_item', function(req,res,next) 
+{
+
+
+
+	return res.render('items.ejs');
+
+});
+
+router.post(
+	'/create_item',
+	async function (
+	  req,
+	  res,
+	  next // Try to create items in database
+	) {
+	  console.log(req.body);
+	  try {
+		var itemInfo = req.body;
+  
+		if (
+		  !itemInfo.itemname ||
+		  !itemInfo.itemdsc ||
+		  !itemInfo.itemstock ||
+		  !itemInfo.itemprice
+		) {
+		  return res.send("Incomplete parameters");
+		}
+  
+		const newItem = await Item.create({
+		  createrId: loggedInUser._id,
+		  productname: itemInfo.itemname,
+		  description: itemInfo.itemdsc,
+		  price: itemInfo.itemprice,
+		  totalStock: itemInfo.itemstock,
+		});
+  
+		const result = await User.findByIdAndUpdate(loggedInUser._id, {
+			$push: { items: newItem._id}, // sanırım burası sıkıntılı 
+		  },{ new: true } )
+			.populate('items')
+			.exec();
+	
+			console.log('Suceess ? : ', result);
+			
+		
+			return res.send("Done");
+	  }
+	   catch (e) {
+		console.log(e);
+	  }
+	}
+  );
+
+
 router.get('/change',function(req,res)
 {
 
 	res.render('change.ejs');
 
 });
+
 
 router.post('/change',function(req,res) // Change 
 {
@@ -256,7 +319,7 @@ router.get('/delete',function(req,res)		// href delete kısmını get ile alıyo
 		console.log("User is deleted");
 		loggedInUser = null;
 		res.render("home.ejs");	// operasyon tamamlandı home page geri atıyor
-	}).catch(function(error)
+	}).catch(function(error)	
 	{
 		console.log(error); // Failure case
 	})
@@ -319,5 +382,54 @@ router.get('/data',function(req,res)
 
 	return res.render('data.ejs');
 });
+
+
+router.get('/all_items',function(req,res,next)
+{
+
+	Item.find({},function(err,items)
+	{
+		res.render('all_items.ejs', 
+		{
+			itemList:items
+		})
+	})
+
+});
+
+
+
+router.get('/your_item', function(req,res,next)
+{
+	Item.find({createrId:loggedInUser?._id},function(err,items)
+	{
+		res.render('your_items.ejs', 
+		{
+			itemList:items
+		})
+	})
+
+	
+
+});
+
+router.post("/do-delete",function(req,res,next)
+{
+  const proId =req.body._id;
+  console.log(proId);
+	Item.findById(proId).then((product) =>
+	{
+		if(!product) 
+		{
+			return next(new Error("Product no found."));
+		}
+		else
+		console.log("It goes in here");
+	})
+});
+
+
+
+
 
 module.exports = router;
