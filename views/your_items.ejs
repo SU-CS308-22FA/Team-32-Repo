@@ -2,11 +2,17 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+	</script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="./css/main.css">
+    <title>Your items</title>
 </head>
 <body>
-    <table class="table">
+    <center>
+        <table class="table table-hover text-center">
         <thead>
           <tr>
             <th scope="col">ID</th>
@@ -31,10 +37,10 @@
                         <!--   <input type="hidden" name="id" value={{item._id}}>     - -->
                              
                             <input type="hidden" name="itemId" value="<%=item._id%>">
-                            <button onclick="deleteProduct(this)" class="btn danger" type="button"><i
+                            <button onclick="deleteProduct(this)" class="btn danger btn-lg btn-outline-dark" type="button"><i
                                     class="fas fa-trash"></i>Delete</button>
         
-                        </form>
+                        </form> 
                     </td>
                     
                     
@@ -51,5 +57,5 @@
         
 
         
-        
+    <center/>
     </table>
