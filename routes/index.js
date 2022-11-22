@@ -3,6 +3,9 @@ var router = express.Router();
 const {User,Item} = require('../models/user');
 
 
+var loggedInUser = null;
+var currentErr = "";
+
 router.get('/register', function (req, res, next) {
 	return res.render('index.ejs');
 });
@@ -70,7 +73,9 @@ router.post('/login', function (req, res, next) {
 			
 			if(data.password==req.body.password){
 				//console.log("Done Login");
+				loggedInUser = data;  // silme işlemi deneme
 				req.session.userId = data.unique_id;
+				req.session._id = data._id;
 				//console.log(req.session.userId);
 				res.send({"Success":"Success!"});
 				
@@ -335,15 +340,14 @@ router.get('/all_items',function(req,res,next)
 
 router.get('/your_item', function(req,res,next)
 {
-	  all_item = User.find( )
-		.populate('items')
-		.exec();
-
-		res.render('your_items.ejs',	
-
-		{itemlist:all_item
-
+	Item.find({createrId:loggedInUser?._id},function(err,items)
+	{
+		res.render('your_items.ejs', 
+		{
+			itemList:items
 		})
+	})
+
 
 	
 
