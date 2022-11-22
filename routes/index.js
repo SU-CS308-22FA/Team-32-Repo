@@ -3,12 +3,12 @@ var router = express.Router();
 const {User,Item} = require('../models/user');
 
 
+router.get('/register', function (req, res, next) {
+	return res.render('register.ejs');
+});
+
 var loggedInUser = null;
 var currentErr = "";
-
-router.get('/register', function (req, res, next) {
-	return res.render('index.ejs');
-});
 
 
 router.post('/register', function(req, res, next) {
@@ -63,29 +63,28 @@ router.post('/register', function(req, res, next) {
 });
 
 router.get('/login', function (req, res, next) {
-	return res.render('login.ejs');
+    return res.render('login.ejs');
 });
 
 router.post('/login', function (req, res, next) {
-	//console.log(req.body);
-	User.findOne({email:req.body.email},function(err,data){
-		if(data){
-			
-			if(data.password==req.body.password){
-				//console.log("Done Login");
-				loggedInUser = data;  // silme işlemi deneme
-				req.session.userId = data.unique_id;
-				req.session._id = data._id;
-				//console.log(req.session.userId);
-				res.send({"Success":"Success!"});
-				
-			}else{
-				res.send({"Success":"Wrong password!"});
-			}
-		}else{
-			res.send({"Success":"This Email Is not registered!"});
-		}
-	});
+    //console.log(req.body);
+    User.findOne({email:req.body.email},function(err,data){
+        if(data){
+
+            if(data.password==req.body.password){
+                //console.log("Done Login");
+                loggedInUser = data;  // silme işlemi deneme
+                req.session.userId = data.unique_id;
+                //console.log(req.session.userId);
+                res.send({"Success":"Success!"});
+
+            }else{
+                res.send({"Success":"Wrong password!"});
+            }
+        }else{
+            res.send({"Success":"This Email Is not registered!"});
+        }
+    });
 });
 
 router.get('/profile', function (req, res, next) {
@@ -97,7 +96,7 @@ router.get('/profile', function (req, res, next) {
 			res.redirect('/');
 		}else{
 			//console.log("found");
-			return res.render('data.ejs', {"name":data.username,"email":data.email, "teamname":data.teamname});
+			return res.render('profile.ejs', {"name":data.username,"email":data.email, "teamname":data.teamname});
 		}
 	});
 });
@@ -111,7 +110,7 @@ router.get('/teamprofile', function (req, res, next) {
 			res.redirect('/');
 		}else{
 			//console.log("found");
-			return res.render('teamdata.ejs', {"name":data.username,"email":data.email});
+			return res.render('teamprofile.ejs', {"name":data.username,"email":data.email});
 		}
 	});
 });
@@ -131,7 +130,7 @@ router.get('/logout', function (req, res, next) {
 });
 
 router.get('/forgetpass', function (req, res, next) {
-	res.render("forget.ejs");
+	res.render("forgetpass.ejs");
 });
 
 router.post('/forgetpass', function (req, res, next) {
@@ -194,24 +193,18 @@ router.get('/', function (req, res, next) {
 
 //ANASAYFA CALL'U
 router.get('/homepage', function (req, res, next) {
-	
-	Item.find({},function(err,items)
-	{
-		res.render('Anasayfa.ejs', 
-		{
-			itemList:items
-		})
-	})
+	return res.render('homepage.ejs');
 });
 //ANASAYFA SONU
+
+router.get('/help', function (req, res, next) {
+	return res.render('help.ejs');
+});
 
 
 router.get('/create_item', function(req,res,next) 
 {
-
-
-
-	return res.render('items.ejs');
+	return res.render('create_item.ejs');
 
 });
 
@@ -333,21 +326,17 @@ router.get('/all_items',function(req,res,next)
 
 
 
-
-
-
-
-
 router.get('/your_item', function(req,res,next)
 {
-	Item.find({createrId:loggedInUser?._id},function(err,items)
-	{
-		res.render('your_items.ejs', 
-		{
-			itemList:items
-		})
-	})
+	  all_item = User.find( )
+		.populate('items')
+		.exec();
 
+		res.render('your_items.ejs',	
+
+		{itemlist:all_item
+
+		})
 
 	
 
@@ -410,6 +399,20 @@ router.post('/teamregister', function(req, res, next) {
 			res.send({"Success":"password is not matched"});
 		}
 	}
+});
+
+router.get('/delete',function(req,res)        // href delete kısmını get ile alıyor
+{
+    User.deleteOne({email:loggedInUser?.email}).then(function()        // delete operation in database
+    {
+
+        console.log("User is deleted");
+        loggedInUser = null;
+        res.render("home.ejs");    // operasyon tamamlandı home page geri atıyor
+    }).catch(function(error)
+    {
+        console.log(error); // Failure case
+    })
 });
 
 module.exports = router;

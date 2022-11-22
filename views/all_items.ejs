@@ -2,18 +2,11 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Welcome</title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
-	</script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<link rel="stylesheet" href="./css/main.css">
-    <title>All items</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
 </head>
 <body>
-    <center>
-    <table class="table table-hover text-center">
+    <table class="table">
         <thead>
           <tr>
             <th scope="col">ID</th>
@@ -24,19 +17,18 @@
           </tr>
         </thead>
         <tbody>
-            
-            <%itemList.forEach(item => {%>
-                <tr>
-                    <th scope="row"><%= item.createrId %></th>
-                    <td><%= item.productname %></td>
-                    <td><%= item.description %></td>
-                    <td><%= item.price %></td>
-                    <td><%= item.totalStock %></td>
-                </tr>
-            <%})%>
+    <%itemList.forEach(item => {%>
+        <tr>
+            <th scope="row"><%= item.createrId %></th>
+            <td><%= item.productname %></td>
+            <td><%= item.description %></td>
+            <td><%= item.price %></td>
+            <td><%= item.totalStock %></td>
+        </tr>
+    <%})%>
         </tbody>
         <div class="abc">
-            <a class="btn btn-dark btn-lg" href="/create_item" role="button">Create Item </a>
+            <a class="btn btn-dark btn-lg" href="/create_item" role="button">Create Item &nbsp; </a><br>
 
             <a class="btn btn-dark btn-lg" href="/homepage" role="button">Go back</a>
         </div>
@@ -46,7 +38,7 @@
         
         
     </table>
-</center>
+    
     
     
 </body>
