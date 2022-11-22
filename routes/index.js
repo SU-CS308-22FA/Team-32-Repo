@@ -189,7 +189,14 @@ router.get('/', function (req, res, next) {
 
 //ANASAYFA CALL'U
 router.get('/homepage', function (req, res, next) {
-	return res.render('Anasayfa.ejs');
+	
+	Item.find({},function(err,items)
+	{
+		res.render('Anasayfa.ejs', 
+		{
+			itemList:items
+		})
+	})
 });
 //ANASAYFA SONU
 
@@ -318,6 +325,11 @@ router.get('/all_items',function(req,res,next)
 	})
 
 });
+
+
+
+
+
 
 
 
