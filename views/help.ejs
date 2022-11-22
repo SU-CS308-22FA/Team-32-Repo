@@ -8,8 +8,142 @@
 	</script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" href="./css/main.css">
+
+
+		<style>
+		body {
+		font-family: "Lato", sans-serif;
+		}
+
+		.sidenav {
+		height: 100%;
+		width: 0;
+		position: fixed;
+		z-index: 1;
+		top: 0;
+		left: 0;
+		background-color: #111;
+		overflow-x: hidden;
+		transition: 0.5s;
+		padding-top: 60px;
+		}
+
+		.sidenav a {
+		padding: 8px 8px 8px 32px;
+		text-decoration: none;
+		font-size: 25px;
+		color: #818181;
+		display: block;
+		transition: 0.3s;
+		}
+
+		.sidenav a:hover {
+		color: #f1f1f1;
+		}
+
+		.sidenav .closebtn {
+		position: absolute;
+		top: 0;
+		right: 25px;
+		font-size: 36px;
+		margin-left: 50px;
+		}
+
+		.menubtn {
+			position: absolute;
+			left: 30px;
+		}
+
+		@media screen and (max-height: 450px) {
+		.sidenav {padding-top: 15px;}
+		.sidenav a {font-size: 18px;}
+		}
+	</style>
 </head>
+
+
 <body>
-    <div id="grad">.</div>
+
+			<div id="mySidenav" class="sidenav">
+			<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+			<a href="/homepage">Home</a>
+			<a href="/change">Update Account</a>
+			<a href="/forgetpass">Change Password</a>
+			<a href="/delete">Delete Account</a>
+			<a href="/help">Help!</a>
+			<a href="/logout">Logout</a>
+			</div>
+
+			<span class="menubtn" style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
+
+			<script>
+				function openNav() {
+				document.getElementById("mySidenav").style.width = "250px";
+				}
+
+				function closeNav() {
+				document.getElementById("mySidenav").style.width = "0px";
+				}
+			</script>
+			
+</body>
+
+
+<body>
+    <div id="grad">
+		<section class="mbr-section form1 cid-qyvf9K0GGo" id="form1-4" data-rv-view="791">
+
+    
+
+    
+			<div class="container">
+				<div class="row justify-content-center">
+					<div class="title col-12 col-lg-8">
+						<h2 class="mbr-section-title align-center pb-3 mbr-fonts-style display-2">
+							CONTACT US</h2>
+						
+					</div>
+				</div>
+			</div>
+			<div class="container">
+				<div class="row justify-content-center">
+					<div class="media-container-column col-lg-8" data-form-type="formoid">
+							<div data-form-alert="" hidden="">
+								Thanks for filling out the form!
+							</div>
+					
+							<form class="mbr-form" action="https://mobirise.com/" method="post" data-form-title="Mobirise Form"><input type="hidden" data-form-email="true" value="R46ImfT8lRYLhZq6vpVE63L0V35bOdmwHjgn18Tp/HdDujD3JfWe/8bm7YjE2vjZZ7JFQMRNRIinYQUh3aNa2qi1GshxArFhHAffNuiFsZiNLfMCF8KElmS7V7lbqBIL">
+								<div class="row row-sm-offset">
+									<div class="col-md-4 multi-horizontal" data-for="name">
+										<div class="form-group">
+											<label class="form-control-label mbr-fonts-style display-7" for="name-form1-4">Name</label><br>
+											<input type="text" class="form-control-contact" name="name" data-form-field="Name" required="" id="name-form1-4">
+										</div>
+									</div>
+									<div class="col-md-4 multi-horizontal" data-for="email">
+										<div class="form-group">
+											<label class="form-control-label mbr-fonts-style display-7" for="email-form1-4">Email</label><br>
+											<input type="email" class="form-control-contact" name="email" data-form-field="Email" required="" id="email-form1-4">
+										</div>
+									</div>
+									<div class="col-md-4 multi-horizontal" data-for="phone">
+										<div class="form-group">
+											<label class="form-control-label mbr-fonts-style display-7" for="phone-form1-4">Phone</label><br>
+											<input type="tel" class="form-control-contact" name="phone" data-form-field="Phone" id="phone-form1-4">
+										</div>
+									</div>
+								</div>
+								<div class="form-group" data-for="message">
+									<label class="form-control-label mbr-fonts-style display-7" for="message-form1-4">Message</label><br>
+									<textarea type="text" class="form-control-contact" name="message" rows="7" data-form-field="Message" id="message-form1-4" style="height: 122px;"></textarea>
+								</div>
+					
+								<span class="input-group-btn"><button href="" type="submit" class="btn btn-form btn-black-outline display-4">SEND FORM</button></span>
+							</form>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
 </body>
 </html>
