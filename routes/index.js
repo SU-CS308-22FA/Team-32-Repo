@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+const  ObjectID = require('mongodb').ObjectId;
 const {User,Item} = require('../models/user');
 
 
@@ -413,22 +414,62 @@ router.get('/your_item', function(req,res,next)
 
 });
 
+ /*User.deleteOne({email:loggedInUser?.email}).then(function()		// delete operation in database
+	{
+
+		console.log("User is deleted");
+		loggedInUser = null;
+		res.render("home.ejs");	// operasyon tamamlandı home page geri atıyor
+	}).catch(function(error)	
+	{
+		console.log(error); // Failure case
+	})
 router.post("/do-delete",function(req,res,next)
 {
-  const proId =req.body._id;
-  console.log(proId);
-	Item.findById(proId).then((product) =>
-	{
-		if(!product) 
-		{
-			return next(new Error("Product no found."));
+	var itemid = req.params.id;
+    console.log(itemid);
+}); */
+
+
+router.post("/do-delete",function(req,res,next)
+{
+    var itemid = req.body.id;
+    console.log("Item id",itemid);
+	var userid = loggedInUser._id;
+	console.log("User id",userid);
+
+	Item.findById(itemid,function(err,item) 
+	{	
+		if(err)
+		console.log(err);
+		else 
+		{	console.log(item);
+			Item.deleteOne({_id:ObjectID(itemid),createrId:ObjectID(loggedInUser?._id)}).then(function( err,items) // items dönmüyor 
+				{
+					console.log("DESTROYED PRODUCT");
+
+					
+					Item.find({createrId:loggedInUser?._id},function(err,items)
+				{
+					res.render('your_items.ejs', 
+					{
+						itemList:items
+					})
+				})
+
+					
+					
+				}).catch(function(error) 
+				{
+					console.log(error);
+				});
+			
+				
 		}
-		else
-		console.log("It goes in here");
+		
 	})
+
 });
-
-
 
 
 

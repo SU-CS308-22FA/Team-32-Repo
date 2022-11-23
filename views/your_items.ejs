@@ -4,6 +4,43 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+
+
+  
+    <script type="text/javascript">
+		$(document).ready(function(){
+
+			$( "#form5" ).submit(function(event) {
+				event.preventDefault();
+
+				$.ajax({
+					type: 'POST',
+					url: '/do-delete',
+					data: $('#form5').serialize(),
+					dataType: "json",
+					success: function(response){
+						//alert("a");
+						//console.log(response.Success);
+						$('#form5')[0].reset();
+
+						document.getElementById("check").innerHTML=response.Success;
+         					//ADD THIS CODE
+         					setTimeout(function(){
+         						document.getElementById("check").innerHTML="";
+         					},3000);
+         					if (response.Success=="Success!") {
+         						document.getElementById("aa").click();
+         					};
+         				},
+         				error: function() {
+         				}
+         			})
+			});
+
+		});
+	</script>
+
+
 </head>
 <body>
     <table class="table">
@@ -17,7 +54,7 @@
           </tr>
         </thead>
         <tbody>
-    <%itemList.forEach(item => {%>
+     <%itemList.forEach(item => {%>
         <tr>
             <th scope="row"><%= item._id %></th>
             <td><%= item.productname %></td>
@@ -26,7 +63,10 @@
             
             <td><%= item.totalStock %></td>
             <td>
-                <button type = "button " class ="btn btn-dark btn-lg " onclick="doDelete('<%= item._id %>');">Delete </button>
+                <form action="/do-delete" method="post">
+                    <input type="hidden" name="id" value="<%= item._id %>">  
+                    <button class="btn btn-danger" type="submit">DELETE</button>
+                </form>
             </td>
             
             
@@ -41,26 +81,9 @@
         </div>
       
 
-        <script>
-            function doDelete(postId) 
-            {
-                $.ajax(
-                    {
-                        url: "/do-delete",
-                        method: "POST",
-                        data: 
-                        {
-                            i_id: postId
-                        },
-                        success: function(response) 
-                        {
-                            alert(response);
-                        }
-                    });
-            }
-        </script>
+      
         
 
-        
+    
         
     </table>
