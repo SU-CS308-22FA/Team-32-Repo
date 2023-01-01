@@ -75,7 +75,7 @@ function Profilepage() {
                 {loading && <Loader/>}
                 <Form onSubmit={submitHandler}>
                     <Form.Group controlId='name'>
-                        <Form.Label>Userame</Form.Label>
+                        <Form.Label>Username</Form.Label>
                         <Form.Control
                          required 
                         type='name'
@@ -123,7 +123,7 @@ function Profilepage() {
                         onChange={(e) => setConfirmPassword(e.target.value)}                      
                         ></Form.Control>
                     </Form.Group>
-                    <Button type='submit' variant='warning'>Update</Button>
+                    <br></br><Button type='submit' variant='warning'>Update</Button>
                 </Form>           
             </Col>
           </Row>

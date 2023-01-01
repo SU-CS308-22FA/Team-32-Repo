@@ -54,6 +54,10 @@ function Header() {
               )}
               
             </Nav>
+            <LinkContainer to="/cart">
+              <Nav.Link className="nav-color"><i className="fa fa-shopping-cart" aria-hidden="true"></i> My Cart |</Nav.Link>
+            </LinkContainer>
+            
             <Form className="d-flex">
               
               <Form.Control

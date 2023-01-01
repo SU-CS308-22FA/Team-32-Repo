@@ -13,7 +13,8 @@ import Loginpage from './page/Loginpage';
 import Registerpage from './page/Registerpage';
 import Profilepage from './page/Profilepage';
 import Homepage from './page/Homepage';
-
+import Shippingpage from './page/Shippingpage';
+import Paymentpage from './page/Paymentpage';
 
 function App() {
   return (
@@ -31,6 +32,8 @@ function App() {
         <Route path="/login" element={<Loginpage />} />
         <Route path="/register" element={<Registerpage />} />
         <Route path="/profile" element={<Profilepage />} />
+        <Route path="/shipping" element={<Shippingpage />} />
+        <Route path="/payment" element={<Paymentpage />} />
   
       
       </Routes>

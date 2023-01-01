@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation, useParams } from 'react-router-dom'
+import { useLocation, useParams, useNavigate } from 'react-router-dom'
 import { addToCart, removeFromCart } from '../actions/cartAction'
 import { Row, Col, ListGroup, Form, Button, Image, ListGroupItem, Card } from 'react-bootstrap'
 import Message  from '../components/Message'
@@ -15,6 +15,7 @@ function Cardpage() {
     console.log({ id, qty })
     
     const dispatch = useDispatch()
+    const history = useNavigate()
 
     const cart = useSelector(state => state.cart)
     const { cartItems } = cart
@@ -23,6 +24,11 @@ function Cardpage() {
         dispatch(removeFromCart(id))
     }
     
+    const checkoutHandler=()=>{
+        history('/shipping')
+
+    }
+
     useEffect(() =>
         {
             if (id) {
@@ -45,7 +51,7 @@ function Cardpage() {
                           <ListGroup variant='flush'>
                               {cartItems.map(item => (
                                 
-                                <ListGroup.Item key={item.product}>
+                                <ListGroup.Item key={item.product} style={{ backgroundColor: 'white' }}>
                                     <Row>
                                             <Col md={2}>
                                                 <Image src={item.image} width='80' alt ={item.image}/>
@@ -87,11 +93,19 @@ function Cardpage() {
               <Col md={4}>
                   <Card>
                       <ListGroup variant='flush'>
-                          <ListGroupItem>
-                              <h2>Products in your cart: ({cartItems.reduce((acc, item)=> acc+item.qty, 0)})</h2>
+                          <ListGroupItem style={{ backgroundColor: 'white' }}>
+                              <h2 style={{ color: 'black'}}>Products in your cart: ({cartItems.reduce((acc, item) => acc + item.qty, 0)})</h2>
+                              <span style={{ color: 'black' }}>₺({cartItems.reduce((acc, item)=> acc+item.qty* item.price,0).toFixed(2)})</span>
                           </ListGroupItem>
                           
                       </ListGroup>
+                    <ListGroup.Item>
+                        <Button onClick={checkoutHandler} type='button' className='btn-block' disabled={cartItems.length===0}>
+                            Complete order
+                        </Button>
+
+
+                    </ListGroup.Item>
                   </Card>
               </Col>
         </Row>  
