@@ -13,9 +13,14 @@ User Documentation: How to install the software: Click on the code button on git
 3) First, install virtual env by entering "pip install virtualenv" command
 4) Create virtual environment with this command: python -m virtualenv yourenvname
 5) Initiate virtualenv by entering: yourenvname\scripts\activate
-6) Before starting backend, install Django: pip install django
-7) If there are any modules missing, install them with pip install command
-8) For frontend, install node.js
+6) Before starting backend, install the following modules with the given command:
+  • pip install django
+  • pip install django-cors-headers
+  • pip install djangorestframework
+  • pip install --upgrade djangorestframework-simplejwt
+  • pip install pillow
+8) For frontend, enter the following command:
+  • npm install react-scripts --save
 9) Run npm install in your terminal
 
 How to run the software:
