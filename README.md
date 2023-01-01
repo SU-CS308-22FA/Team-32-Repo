@@ -21,10 +21,10 @@ User Documentation: How to install the software: Click on the code button on git
 How to run the software:
 
 Open two split terminals
-Initiate virtual envrionment in both of these terminals
-To start backend, move to backend folder and enter the following command: python manage.py runserver
-To start frontend, move to frontend folder and enter the following command: npm start
-You can see your backend is started at http://127.0.0.1:8000/ Your frontend will start automatically
+1) Initiate virtual envrionment in both of these terminals
+2) To start backend, move to backend folder and enter the following command: python manage.py runserver
+3) To start frontend, move to frontend folder and enter the following command: npm start
+4) You can see your backend is started at http://127.0.0.1:8000/ Your frontend will start automatically
 
 How to report a bug: Contact us from about us page. Known bugs: None for now Developer Documentation: How to obtain the source code: Directly downloadable from github and on google drive with limited access by developers only The layout of the directory structure: Backend contains things revolving the backend, frontend has frontend components, in actions of src of frontend there are actions of productlist and cart and user. In component lies most things of mainpage and other frontend. In constants is constants for product list cart and user and in page lies the navigation. How to build and deploy the software: Same as a user.
 
