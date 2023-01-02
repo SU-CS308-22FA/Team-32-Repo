@@ -45,33 +45,38 @@ class UserSerializerWithToken(UserSerializer):
         token = RefreshToken.for_user(obj)
         return str(token.access_token)
 
+
 class ShippingAddressSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ShippingAddress 
+        model = ShippingAddress
         fields = '__all__'
+
 
 class OrderItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = OrderItem
         fields = '__all__'
-        
+
+
 class OrderSerializer(serializers.ModelSerializer):
-    orderItems = serializers.SerializerMethodField(read_only = True)
-    shippingAddress = serializers.SerializerMethodField(read_only = True)
-    user = serializers.SerializerMethodField(read_only = True)
+    orderItems = serializers.SerializerMethodField(read_only=True)
+    shippingAddress = serializers.SerializerMethodField(read_only=True)
+    user = serializers.SerializerMethodField(read_only=True)
+
     class Meta:
         model = Order
         fields = '__all__'
 
     def get_orderItems(self, obj):
         items = obj.orderitem_set.all()
-        serializers = OrderItemSerializer(items, many = True)
+        serializer = OrderItemSerializer(items, many=True)
 
-        return serializers.data
+        return serializer.data
 
     def get_shippingAddress(self, obj):
         try:
-            address = ShippingAddressSerializer(obj.shippingAddress, many=False).data
+            address = ShippingAddressSerializer(
+                obj.shippingAddress, many=False).data
 
         except:
             address = False
@@ -80,5 +85,5 @@ class OrderSerializer(serializers.ModelSerializer):
 
     def get_user(self, obj):
         user = obj.user
-        serializers = UserSerializer(user, many = False)
-        return serializers
+        serializer = UserSerializer(user, many=False)
+        return serializer.data

@@ -15,30 +15,34 @@ from rest_framework import status
 def addOrderItems(request):
     user = request.user
     data = request.data
+
     orderItems = data['orderItems']
 
     if orderItems and len(orderItems) == 0:
-        return Response({'detail': 'Out of stock.'}, status=status.HTTP_400_BAD_REQUEST)
-
+        return Response({'detail': 'No Order Items'}, status=status.HTTP_400_BAD_REQUEST)
     else:
-        # create order
+
+        # (1) Create order
+
         order = Order.objects.create(
             user=user,
             paymentMethod=data['paymentMethod'],
             taxPrice=data['taxPrice'],
             shippingPrice=data['shippingPrice'],
-            TotalPrice=data['TotalPrice'],
+            TotalPrice=data['TotalPrice']
         )
-    # create address
+
+        # (2) Create shipping address
+
         shipping = ShippingAddress.objects.create(
             order=order,
             address=data['shippingAddress']['address'],
             city=data['shippingAddress']['city'],
-            postalCode=data['shippingAddress']['postalCode'],
             country=data['shippingAddress']['country'],
+            postalCode=data['shippingAddress'].get('postalCode', '')
         )
 
-    # order orderitem set
+        # (3) Create order items adn set order to orderItem relationship
         for i in orderItems:
             product = Product.objects.get(_id=i['product'])
 
@@ -48,10 +52,11 @@ def addOrderItems(request):
                 name=product.name,
                 qty=i['qty'],
                 price=i['price'],
-                image=product.image.url
+                image=product.image.url,
             )
 
-    # update stock
+            # (4) Update stock
+
             product.countInStock -= item.qty
             product.save()
 

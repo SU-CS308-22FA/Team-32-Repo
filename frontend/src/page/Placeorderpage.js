@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import CheckoutSteps from '../components/CheckoutSteps'
 import FormContainer from '../components/FormContainer'
 import { useDispatch, useSelector } from 'react-redux'
@@ -8,6 +8,8 @@ import { savePaymentMethod, saveShippingAddress } from '../actions/cartAction'
 import { Row, Col, Button, Card, ListGroup, Image } from 'react-bootstrap'
 import Message from '../components/Message'
 import { Link } from 'react-router-dom'
+import { ORDER_CREATE_RESET } from '../constants/orderConstants'
+import { createOrder } from '../actions/orderAction'
 
 function Placeorderpage() {
     const cart = useSelector(state => state.cart)
@@ -19,12 +21,35 @@ function Placeorderpage() {
     const dispatch = useDispatch()
     const history = useNavigate()
 
+    const orderCreate = useSelector(state => state.orderCreate)
+    const { order, error, success } = orderCreate
 
 
     if (!cart.paymentMethod)
     {
         history('/payment')
     }
+
+    useEffect(() => {
+        if (success) {
+            history(`order/${order._id}`)
+            dispatch({type: ORDER_CREATE_RESET})
+        }
+    }, [success, history])
+
+    const placeOrder = () => {
+        dispatch(createOrder({
+            orderItems: cart.cartItems,
+            shippingAddress: cart.shippingAddress,
+            paymentMethod: cart.paymentMethod,
+            ItemsPrice: cart.ItemsPrice,
+            shippingPrice: cart.shippingPrice,
+            taxPrice: cart.taxPrice,
+            TotalPrice: cart.TotalPrice,
+            postalCode: cart.postalCode
+        }))
+    }
+
   
     return (
         <div>
@@ -41,7 +66,7 @@ function Placeorderpage() {
                         <ListGroup.Item className='ordertm2'>
                             <p>
                                 <strong>Address: </strong>
-                                {cart.shippingAddress.address}, {cart.shippingAddress.city}, {cart.shippingAddress.postalcode}, {cart.shippingAddress.country}
+                                {cart.shippingAddress.address}, {cart.shippingAddress.city}, {cart.shippingAddress.postalCode}, {cart.shippingAddress.country}
 
                             </p>
                         </ListGroup.Item>
@@ -134,11 +159,11 @@ function Placeorderpage() {
                             </ListGroup.Item>
                             
                             <ListGroup.Item className='ordertm2'>
-                                <Message variant='danger'></Message>
+                                {error && <Message variant='danger'>{error}</Message>}
                             </ListGroup.Item>
 
                             <ListGroup.Item className='ordertm2'>
-                                <Button type='button' disabled={cart.cartItems === 0} variant='danger'>Complete Order</Button>
+                                <Button type='button' onClick={placeOrder} disabled={cart.cartItems === 0} variant='danger'>Complete Order</Button>
                             </ListGroup.Item>
                         </ListGroup>
                     </Card>
