@@ -15,6 +15,7 @@ import Profilepage from './page/Profilepage';
 import Homepage from './page/Homepage';
 import Shippingpage from './page/Shippingpage';
 import Paymentpage from './page/Paymentpage';
+import Placeorderpage from './page/Placeorderpage';
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
         <Route path="/profile" element={<Profilepage />} />
         <Route path="/shipping" element={<Shippingpage />} />
         <Route path="/payment" element={<Paymentpage />} />
+        <Route path="/placeorder" element={<Placeorderpage />} />
   
       
       </Routes>

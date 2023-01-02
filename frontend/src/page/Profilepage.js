@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation,  useNavigate } from 'react-router-dom'
-import { getUserDetails, register, updateUserProfile } from '../actions/userAction'
+import { useNavigate } from 'react-router-dom'
+import {  updateUserProfile } from '../actions/userAction'
 import { Row, Col, Form, Button } from 'react-bootstrap'
 import Message from '../components/Message'
 import Loader  from '../components/Loader'
-import { Link } from 'react-router-dom';
-import FormContainer from '../components/FormContainer';
+
 import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants';
 
 function Profilepage() {

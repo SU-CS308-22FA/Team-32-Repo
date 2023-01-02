@@ -25,7 +25,7 @@ function Paymentpage() {
     const submitHandler = (e) => {
         e.preventDefault()
         dispatch(savePaymentMethod(paymentMethod))
-        history('/placeholder')
+        history('/placeorder')
 
     }
     
@@ -46,19 +46,7 @@ function Paymentpage() {
                       onChange={(e) => setPaymentMethod(e.target.value)}>
                           
                         </Form.Check>
-                        
-                        <Form.Check
-                          type='radio'
-                          label='Pay at door'
-                          id='pay'
-                          name='paymentMethod'
-                          checked
-                      onChange={(e) => setPaymentMethod(e.target.value)}>
-                          
-                      </Form.Check>
-                    </Form.Group>
-
-                    
+                    </Form.Group>                
                   
                     <br></br><Button type='submit' variant='warning'>Submit</Button>
                 </Form>     
