@@ -16,6 +16,7 @@ import Homepage from './page/Homepage';
 import Shippingpage from './page/Shippingpage';
 import Paymentpage from './page/Paymentpage';
 import Placeorderpage from './page/Placeorderpage';
+import Orderpage from './page/Orderpage';
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
         <Route path="/shipping" element={<Shippingpage />} />
         <Route path="/payment" element={<Paymentpage />} />
         <Route path="/placeorder" element={<Placeorderpage />} />
+        <Route path="/order/:id" element={<Orderpage />} />
         
   
       

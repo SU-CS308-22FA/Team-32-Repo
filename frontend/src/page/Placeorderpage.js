@@ -1,10 +1,7 @@
 import React, { useEffect } from 'react'
 import CheckoutSteps from '../components/CheckoutSteps'
-import FormContainer from '../components/FormContainer'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { useState } from 'react'
-import { savePaymentMethod, saveShippingAddress } from '../actions/cartAction'
 import { Row, Col, Button, Card, ListGroup, Image } from 'react-bootstrap'
 import Message from '../components/Message'
 import { Link } from 'react-router-dom'
@@ -32,7 +29,7 @@ function Placeorderpage() {
 
     useEffect(() => {
         if (success) {
-            history(`order/${order._id}`)
+            history(`/order/${order._id}`)
             dispatch({type: ORDER_CREATE_RESET})
         }
     }, [success, history])
