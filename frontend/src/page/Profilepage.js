@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom'
-import {  updateUserProfile } from '../actions/userAction'
-import { Row, Col, Form, Button } from 'react-bootstrap'
+import {  getUserDetails, updateUserProfile } from '../actions/userAction'
+import { Row, Col, Form, Button, Table } from 'react-bootstrap'
 import Message from '../components/Message'
 import Loader  from '../components/Loader'
-
+import {LinkContainer} from 'react-router-bootstrap'
 import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants';
+import { listMyOrders } from '../actions/orderAction';
 
 function Profilepage() {
 
@@ -32,6 +33,10 @@ function Profilepage() {
     const { success } = userUpdateProfile
     console.log(userUpdateProfile)
 
+    const orderListMy = useSelector(state=>state.orderListMy)
+    const { error: errorOrders, loading: loadingOrders, orders } = orderListMy
+    console.log(orderListMy)
+
     useEffect(() => {
         if (!userInfo) {
             history('/login')
@@ -39,6 +44,7 @@ function Profilepage() {
             if (!user || !user.name || success || userInfo._id !== user._id) {
                 dispatch({ type: USER_UPDATE_PROFILE_RESET })
                 //dispatch(getUserDetails('profile')) // this line is causing infinite loop
+                dispatch(listMyOrders()) 
 
             } else {
                 setName(user.name)
@@ -124,9 +130,56 @@ function Profilepage() {
                     </Form.Group>
                     <br></br><Button type='submit' variant='warning'>Update</Button>
                 </Form>           
-            </Col>
+                 </Col>
+                 
+                 <Col md={8}>
+                     <h2 className='product-title'>My Orders</h2>
+                     {loadingOrders ? (<Loader />) :
+                         errorOrders ? (<Message variant='danger'>{errorOrders}</Message>) :
+                             (
+                                 <Table striped responsive className='table-sm'>
+                                     <thead>
+                                         <tr>
+                                             <th>ID</th>
+                                             <th>Date</th>
+                                             <th>Total Cost</th>
+                                             <th>Payment Status</th>
+                                             <th>Details</th>
+
+
+                                         </tr>
+                                     </thead>
+
+                                     <tbody>
+                                         {orders.map(order => (
+                                             <tr key={order._id}>
+                                                 <td>{order._id}</td>
+                                                 <td>{order.createAt}</td>
+                                                 <td>{order.TotalPrice}</td>
+                                                 <td>{order._isPaid ? order.paidAt : (<i className='fa fa-times' style={{ color: 'red' }}></i>)}</td>
+                                                 <td>
+                                                     <LinkContainer to={`/order/${order._id}`}>
+                                                         <Button> Details</Button>
+                                    
+                                                     </LinkContainer>
+
+
+                                                 </td>
+
+
+                                             </tr>
+
+
+                                         ))}
+                                     </tbody>
+
+
+                                 </Table>
+                             )
+                     }
+                 </Col>
           </Row>
-    </div>
+            </div>
   )
 }
 

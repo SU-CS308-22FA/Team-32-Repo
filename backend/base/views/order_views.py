@@ -71,6 +71,7 @@ def getOrders(request):
     serializer = OrderSerializer(orders, many=True)
     return Response(serializer.data)
 
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def getOrderById(request, pk):
@@ -78,12 +79,22 @@ def getOrderById(request, pk):
     user = request.user
 
     try:
-        order= Order.objects.get(_id =pk)
+        order = Order.objects.get(_id=pk)
         if user.is_staff or order.user == user:
             serializer = OrderSerializer(order, many=False)
             return Response(serializer.data)
         else:
-            Response({'detail:' 'Not authorized order'}, status=status.HTTP_400_BAD_REQUEST)
+            Response({'detail:' 'Not authorized order'},
+                     status=status.HTTP_400_BAD_REQUEST)
 
     except:
         Response({'detail:' 'Order exit '}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def getMyOrders(request):
+    user = request.user
+    orders = user.order_set.all()
+    serializer = OrderSerializer(orders, many=True)
+    return Response(serializer.data)
