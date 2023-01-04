@@ -45,11 +45,84 @@ function Orderpage() {
                 <ListGroup variant='flush'>
                     <ListGroup.Item className='ordertm3'>
                         <h3 className='ordertm'>Address Information</h3>
-                        <p className='ordertm4'><strong>Name: </strong>{order.user.name}</p>
+                          <p className='ordertm4'><strong>Name: </strong>{order.user.name}</p>
+                          <p className='ordertm4'><strong>Email: </strong>{order.user.email}</p>
                     </ListGroup.Item>
                 </ListGroup>
-            </Col>
-            <Col md={4}></Col>
+              </Col>
+              
+              <Col md={4}>
+                    <Card>
+                        <ListGroup variant='flush'>
+                            <ListGroup.Item className='ordertm'>
+                               <h2>Complete Purchase</h2>
+                            </ListGroup.Item>
+
+                            <ListGroup.Item className='ordertm2'>
+                                <Row>
+                                    <Col>Product:</Col>
+                                    <Col>₺{order.ItemsPrice}</Col>
+                                </Row>
+
+                            </ListGroup.Item>
+
+                            <ListGroup.Item className='ordertm2'>
+
+
+                                <Row>
+                                    <Col>Shipping:</Col>
+                                    <Col>₺{order.shippingPrice}</Col>
+                                </Row>
+
+                             </ListGroup.Item>
+                             <ListGroup.Item className='ordertm2'>
+
+                                <Row>
+                                    <Col>Tax:</Col>
+                                    <Col>₺{order.taxPrice}</Col>
+                                </Row>
+                             </ListGroup.Item>
+                                <ListGroup.Item className='ordertm2'>
+                                <Row>
+                                    <Col>Total:</Col>
+                                    <Col>₺{order.TotalPrice}</Col>
+                                </Row>
+                            </ListGroup.Item>
+                    
+                        </ListGroup>
+                    </Card>
+              </Col>
+              
+              <Col md={12}>
+                  <br></br>
+                  <ListGroup.Item className='ordertm2'>
+                      
+                            {order.orderItems.length === 0 ? <Message variant='info'>Your order is empty.</Message> :
+                                (
+                                    <ListGroup variant='flush'>
+                                        {order.orderItems.map((item, index) =>
+                                        (
+                                            <ListGroup.Item key={index} className='ordertm'>
+                                                <Row>
+                                                
+                                                    <Col md={7}>
+                                                        <Link to={`/product/${item.product}`}>{item.name}</Link>
+                                                    </Col>
+
+                                                    <Col md={4}>
+                                                        {item.qty} x ₺ {item.price} = ₺ {(item.qty * item.price).toFixed(2)}
+                                                    </Col>
+                                                </Row>
+                                            </ListGroup.Item>
+                                            )
+                                        )}
+                                    </ListGroup>
+                                )
+                            }
+                        </ListGroup.Item>
+              </Col>
+              
+              
         </Row>
     </div>
   )
