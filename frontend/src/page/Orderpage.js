@@ -44,7 +44,7 @@ function Orderpage() {
             <Col md={8}>
                 <ListGroup variant='flush'>
                     <ListGroup.Item className='ordertm3'>
-                        <h3 className='ordertm'>Address Information</h3>
+                        <h3 className='ordertm'>Personal Information</h3>
                           <p className='ordertm4'><strong>Name: </strong>{order.user.name}</p>
                           <p className='ordertm4'><strong>Email: </strong>{order.user.email}</p>
                     </ListGroup.Item>
